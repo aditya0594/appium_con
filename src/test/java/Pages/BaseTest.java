@@ -4,9 +4,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 
+import io.appium.java_client.AppiumBy;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
@@ -27,20 +31,28 @@ public class BaseTest {
 	{
 		
 		/* service = new AppiumServiceBuilder().withAppiumJS(new File("C://Users//Aditya Pawar//AppData//Roaming//npm//node_modules//appium//build//lib//main.js"))
-				.withIPAddress("127.0.0.1").usingPort(4723).build();
+				.withIPAddress("127.0.0.1").usingPort(4723)
+						 .withArgument(GeneralServerFlag.BASEPATH,"/wd/hub").build();
 			service.start();
-			*/
+*/
 		 path = System.getProperty("user.dir");
 			UiAutomator2Options options = new UiAutomator2Options();
 			//options.setDeviceName("RahulPhone"); //emulator
 			options.setDeviceName("RZ8NA1P2S8D");// real device
-			options.setChromedriverExecutable(path+"//Users//rahulshetty//documents//chromedriver 11");
-			
-			options.setApp(path+"//src/test/java/resources/ApiDemos-debug.apk");
-		//	options.setApp("//Users//rahulshetty//workingcode//Appium//src//test//java//resources//General-Store.apk");
-			
-			 driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), options);
-			 driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+			options.setChromedriverExecutable(path+"//Driver/chromedriver.exe");
+			//options.setApp(path+"//src/test/java/resources/ApiDemos-debug.apk");
+			options.setApp(path+"//src/test/java/resources/General-Store.apk");
+			driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), options);
+			driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
+	}
+	public void explictWaitElementToBeClickable(WebElement ele){
+		WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver,Duration.ofSeconds(10));
+		wait.until(ExpectedConditions.elementToBeClickable(ele));
+
+	}
+
+	public void scrollToText(String text){
+		driver.findElement(AppiumBy.androidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView(text(\""+text+ "\"));"));
 	}
 	
 	public void longPressAction(WebElement ele)
@@ -69,7 +81,6 @@ public class BaseTest {
 	{
 		((JavascriptExecutor) driver).executeScript("mobile: swipeGesture", ImmutableMap.of(
 				"elementId", ((RemoteWebElement)ele).getId(),
-			 
 			    "direction", direction,
 			    "percent", 0.75
 			));

@@ -22,21 +22,31 @@ public class MisceallanousAppiumActions extends BaseTest{
 
 		//App Package & App Activity
 		
-		Activity activity = new Activity("io.appium.android.apis", "io.appium.android.apis.preference.PreferenceDependencies");
+		Activity activity = new Activity("io.appium.android.apis", "io.appium.android.apis.app.AlertDialogSamples");
 		//driver.startActivity(activity);
+
+		driver.findElement(AppiumBy.accessibilityId("Preference")).click();
+		driver.findElement(By.xpath("//android.widget.TextView[@content-desc='3. Preference dependencies']")).click();
 		driver.findElement(By.id("android:id/checkbox")).click();
+
+		// to rotate the screen we have one class "DeviceRotation" Class
 		DeviceRotation landScape = new DeviceRotation(0, 0, 90);
-		driver.rotate(landScape);		
+		driver.rotate(landScape);
+
 		driver.findElement(By.xpath("(//android.widget.RelativeLayout)[2]")).click(); 
 		String alertTitle = driver.findElement(By.id("android:id/alertTitle")).getText();
-		Assert.assertEquals(alertTitle, "WiFi settings");	
+		Assert.assertEquals(alertTitle, "WiFi settings");
+
 		//copy paste
 		//copy to clipboard- paste it clipboard
-		
 		driver.setClipboardText("Rahul Wifi");
-		driver.findElement(By.id("android:id/edit")).sendKeys(driver.getClipboardText());
+		driver.findElement(By.id("android:id/edit")).sendKeys(driver.getClipboardText()); //this paste the copy text
+
+
 		driver.pressKey(new KeyEvent(AndroidKey.ENTER));
 		driver.findElements(AppiumBy.className("android.widget.Button")).get(1).click();
+
+		// navigation button of android
 		driver.pressKey(new KeyEvent(AndroidKey.BACK));
 		driver.pressKey(new KeyEvent(AndroidKey.HOME));
 		

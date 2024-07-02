@@ -57,6 +57,9 @@ wait.until(ExpectedConditions.attributeContains(driver.findElement(By.id("com.an
 	driver.findElement(AppiumBy.className("android.widget.CheckBox")).click();
 	driver.findElement(By.id("com.androidsample.generalstore:id/btnProceed")).click();
 	Thread.sleep(6000);
+
+
+	// How to switch to the browser in the hybrid app
 	Set<String> contexts =driver.getContextHandles();
 	for(String contextName :contexts)
 	{
